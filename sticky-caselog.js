@@ -1,6 +1,6 @@
 var StickyCaselogHelper = {
 	addCaselogHeader: function() {
-		this.getCaselogContainer().each(function (index, element) {
+		StickyCaselogHelper.getCaselogContainer().each(function (index, element) {
 			var $this = $(element),
 				$caselogTable = $this.find("table");
 
@@ -10,13 +10,28 @@ var StickyCaselogHelper = {
 	},
 
 	addStickyButtonsHandlers: function() {
-		this.getCaselogContainer().find("div.caselog-sticky-button>button").on("click", function () {
-			console.debug("button click");
+		StickyCaselogHelper.getCaselogContainer().find("div.caselog-sticky-button>button").on("click", function () {
+			var selection = window.getSelection(),
+				$selNodeStart = $(selection.anchorNode),
+				$selNodeEnd = $(selection.focusNode),
+				$caselogEntryStart = StickyCaselogHelper.getCaselogEntryParent($selNodeStart),
+				$caselogEntryEnd = StickyCaselogHelper.getCaselogEntryParent($selNodeEnd),
+				selText = selection.toString();
+
+			console.debug("sticky button handler", selection, $caselogEntryStart, $caselogEntryEnd);
+			if ($caselogEntryStart[0] !== $caselogEntryEnd[0])
+			{
+				alert("cannot save : selection is spanning multiple caselog entries !");
+			}
 		});
 	},
 
 	getCaselogContainer: function () {
 		return $("div.caselog");
+	},
+
+	getCaselogEntryParent: function ($caselogEntrySubnode) {
+		return $caselogEntrySubnode.closest("div.caselog_entry_html");
 	}
 };
 

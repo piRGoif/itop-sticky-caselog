@@ -7,6 +7,11 @@
  caselog readability.  
 
 
+## Reference
+
+[window.getSelection - Référence Web API | MDN](https://developer.mozilla.org/fr/docs/Web/API/Window/getSelection)
+
+
 ## TODO
 
 - action icon
@@ -15,5 +20,8 @@
     - [ ] tooltip when disabled
     - [ ] do not show if no caselog entries
     - [ ] validate position:sticky
-- [ ] selection save
+- selection
+    - [X] get selection
+    - [X] control selection within same caselog_entry_html
+    - [ ] save selection
 - [ ] display of saved extract
