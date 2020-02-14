@@ -9,6 +9,11 @@
 
 ## TODO
 
-- [ ] Action icon
+- action icon
+    - [X] add
+    - [ ] enabled only if text selected
+    - [ ] tooltip when disabled
+    - [ ] do not show if no caselog entries
+    - [ ] validate position:sticky
 - [ ] selection save
 - [ ] display of saved extract
