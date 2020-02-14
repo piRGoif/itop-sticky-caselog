@@ -9,6 +9,12 @@ var StickyCaselogHelper = {
 		})
 	},
 
+	addStickyButtonsHandlers: function() {
+		this.getCaselogContainer().find("div.caselog-sticky-button>button").on("click", function () {
+			console.debug("button click");
+		});
+	},
+
 	getCaselogContainer: function () {
 		return $("div.caselog");
 	}
@@ -17,4 +23,5 @@ var StickyCaselogHelper = {
 
 $(document).ready(function () {
 	StickyCaselogHelper.addCaselogHeader();
+	StickyCaselogHelper.addStickyButtonsHandlers();
 });
