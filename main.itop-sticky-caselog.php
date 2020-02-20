@@ -11,6 +11,6 @@ class StickyCaseLogUiExtension extends AbstractApplicationUIExtension
 		$sModuleDirName = basename(__DIR__);
 		$sModuleUrl = utils::GetAbsoluteUrlModulesRoot().'/'.$sModuleDirName;
 		$oPage->add_linked_script($sModuleUrl.'/sticky-caselog.js');
-		$oPage->add_saas('env-'.utils::GetCurrentEnvironment().'/'.$sModuleDirName.'/sticky-caselog.scss');
+//		$oPage->add_saas('env-'.utils::GetCurrentEnvironment().'/'.$sModuleDirName.'/sticky-caselog.scss');
 	}
 }
