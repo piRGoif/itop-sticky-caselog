@@ -1,0 +1,18 @@
+$sticky-border: 5px solid gray;
+$sticky-bg: yellow;
+
+div[data-attribute-code="sticky_log"]
+{
+	border-left: $sticky-border;
+	border-right: $sticky-border;
+
+	td
+	{
+		background-color: $sticky-bg;
+
+		.caselog_header
+		{
+			background-color: darken($sticky-bg, 10);
+		}
+	}
+}
