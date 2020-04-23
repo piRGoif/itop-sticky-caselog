@@ -1,55 +1,69 @@
 var StickyCaselogHelper = {
-	addCaselogHeader: function() {
-		StickyCaselogHelper.getCaselogContainersList().each(function (index, element) {
-			var $this = $(element),
-				$caselogTable = $this.find("table");
-
-			console.debug("caselog header", $this, $caselogTable);
-			$this.prepend("<div class='caselog-sticky-button'><button><i class=\"fas fa-thumbtack\"></i> Make sticky !</button></div>");
-		})
-	},
-
-	addStickyButtonsHandlers: function() {
-		StickyCaselogHelper.getCaselogContainersList().find("div.caselog-sticky-button>button").on("click", function () {
-			var selection = window.getSelection(),
-				$selNodeStart = $(selection.anchorNode),
-				$selNodeEnd = $(selection.focusNode),
-				$caselogEntryStart = StickyCaselogHelper.getCaselogEntryParent($selNodeStart),
-				$caselogEntryEnd = StickyCaselogHelper.getCaselogEntryParent($selNodeEnd),
-				selText = selection.toString();
-
-			console.debug("sticky button handler", selection, $caselogEntryStart, $caselogEntryEnd);
-			if ($caselogEntryStart[0] !== $caselogEntryEnd[0])
-			{
-				alert("cannot save : selection is spanning multiple caselog entries !");
-			}
-		});
+	refreshCaselogsDisplay: function(bEditMode) {
+		(bEditMode) ? this.refreshCaselogsDisplayOnEdit() : this.refreshCaselogsDisplayOnDetails();
 	},
 
 	/**
-	 * If at least one sticky caselog entry exists, then all other caselogs are closed and we open all sticky entries
+	 * For object edition : hides sticky caselog
 	 */
-	refreshCaseLogs: function() {
+	refreshCaselogsDisplayOnEdit: function() {
+		this.hideStickyCaselog();
+	},
+
+	/**
+	 * For object details :
+	 *
+	 * * if at least one sticky entry exists, collapse all other caselog entries, and expand all sticky entries
+	 * * if sticky caselog is empty, hides it and does nothing else
+	 * * add a button on each caselog entry to add them to the sticky caselog
+	 */
+	refreshCaselogsDisplayOnDetails: function() {
 		var $stickyCaselogEntries = this.getCaselogEntries("sticky_log"),
 			iNbOfStickyCaselogEntries = $stickyCaselogEntries.length;
 
+		this.getCaselogContainersList().each(function(index, element) {
+			var $me = $(element),
+				$headers = $me.find('.caselog_header');
+
+			if (!$me.parent().is("[data-attribute-code='sticky_log']"))
+			{
+				$headers.prepend('<i class="far fa-star sticky-add-content"></i>&nbsp;');
+			}
+		});
+		this.addStickyButtonsHandlers();
+
 		if (iNbOfStickyCaselogEntries === 0)
 		{
-			StickyCaselogHelper.getCaselogContainer("sticky_log").closest("fieldset").hide();
+			this.hideStickyCaselog();
 			return;
 		}
 
-		StickyCaselogHelper.getCaselogContainersList().each(function(index, element) {
-			var $me = $(element);
-			console.debug("loop caselog", $me);
+		this.getCaselogContainersList().each(function(index, element) {
+			var $me = $(element),
+				$headers = $me.find('.caselog_header'),
+				$entries = $me.find('.caselog_entry, .caselog_entry_html');
+
 			if ($me.parent().is("[data-attribute-code='sticky_log']"))
 			{
-				return true; // simply skip this occurrence
+				$headers.addClass('open');
+				$entries.show();
 			}
-
-			$me.find('.caselog_header').removeClass('open');
-			$me.find('.caselog_entry, .caselog_entry_html').hide();
+			else {
+				$headers.removeClass('open');
+				$entries.hide();
+			}
 		});
+	},
+
+	addStickyButtonsHandlers: function() {
+		this.getCaselogContainersList().find(".sticky-add-content").on("click", function (event) {
+			console.debug("clicked !", this);
+			event.stopPropagation(); // we do not want to trigger entry expand/collapse
+		});
+	},
+
+	hideStickyCaselog: function() {
+		this.getCaselogContainer("sticky_log").closest("fieldset").hide();
 	},
 
 	getCaselogContainersList: function () {
@@ -65,13 +79,6 @@ var StickyCaselogHelper = {
 	},
 
 	getCaselogEntries: function (sAttributeCode) {
-		return StickyCaselogHelper.getCaselogContainer(sAttributeCode).find("div.caselog>table div.caselog_entry_html");
+		return this.getCaselogContainer(sAttributeCode).find("div.caselog>table div.caselog_entry_html");
 	}
 };
-
-
-$(document).ready(function () {
-	// StickyCaselogHelper.addCaselogHeader(); //FIXME
-	// StickyCaselogHelper.addStickyButtonsHandlers();
-	StickyCaselogHelper.refreshCaseLogs();
-});
