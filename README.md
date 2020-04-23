@@ -14,14 +14,9 @@
 
 ## TODO
 
-- action icon
-    - [X] add
-    - [ ] enabled only if text selected
-    - [ ] tooltip when disabled
-    - [ ] do not show if no caselog entries
-    - [ ] validate position:sticky
-- selection
-    - [X] get selection
-    - [X] control selection within same caselog_entry_html
-    - [ ] save selection
-- [ ] display of saved extract
+- [X] new caselog field
+- [X] some basic styling
+- [X] on opening : expand/collapse/hide dependeing if sticky entries present
+- [ ] caselog fields display order
+- [ ] new caselog : copy existing entry
+- [ ] new caselog : when copying existing entry, select content to keep
