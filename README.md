@@ -18,5 +18,7 @@
 - [X] some basic styling
 - [X] on opening : expand/collapse/hide dependeing if sticky entries present
 - [ ] caselog fields display order
-- [ ] new caselog : copy existing entry
+- new caselog : copy existing entry
+    - [X] add entry button in UI
+    - [ ] add entry action (ajax ?)
 - [ ] new caselog : when copying existing entry, select content to keep
